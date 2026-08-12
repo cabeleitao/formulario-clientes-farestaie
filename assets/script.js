@@ -35,6 +35,46 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  /* ---------- Agente de retención: mostrar impuestos condicionalmente ---------- */
+  var retentionBlock = document.getElementById('retentionBlock');
+  var retOtro = document.getElementById('retOtro');
+  var retOtroDetalleField = document.getElementById('retOtroDetalleField');
+  var retOtroDetalle = document.getElementById('retOtroDetalle');
+  var agenteRetencionImpuestos = document.getElementById('agenteRetencionImpuestos');
+  var retCheckboxes = Array.prototype.slice.call(
+    document.querySelectorAll('#retentionBlock input[type="checkbox"]')
+  );
+
+  function syncRetencionImpuestos(){
+    var selected = retCheckboxes
+      .filter(function(cb){ return cb.checked; })
+      .map(function(cb){ return cb.value; });
+    agenteRetencionImpuestos.value = selected.join(', ');
+  }
+
+  document.querySelectorAll('input[name="agenteRetencion"]').forEach(function(radio){
+    radio.addEventListener('change', function(){
+      var esAgente = radio.value === 'Sí' && radio.checked;
+      retentionBlock.hidden = !esAgente;
+      if(!esAgente){
+        retCheckboxes.forEach(function(cb){ cb.checked = false; });
+        retOtroDetalle.value = '';
+        retOtroDetalleField.hidden = true;
+        agenteRetencionImpuestos.value = '';
+      }
+    });
+  });
+
+  retCheckboxes.forEach(function(cb){
+    cb.addEventListener('change', function(){
+      if(cb === retOtro){
+        retOtroDetalleField.hidden = !retOtro.checked;
+        if(!retOtro.checked){ retOtroDetalle.value = ''; }
+      }
+      syncRetencionImpuestos();
+    });
+  });
+
   function markError(field){
     if(!field) return;
     field.classList.add('has-error');

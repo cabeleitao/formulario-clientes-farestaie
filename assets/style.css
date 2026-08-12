@@ -217,6 +217,9 @@ fieldset legend em{ color: var(--required); font-style:normal; }
 }
 .choice:has(input:focus-visible){ box-shadow: 0 0 0 3px var(--steel-tint); }
 
+.check-grid{ display:flex; flex-wrap:wrap; gap:8px; margin: 4px 0 4px; }
+.choice--check{ flex: 0 0 auto; padding: 9px 16px; }
+
 /* Bloques de contacto */
 .contact-block{
   position: relative;
