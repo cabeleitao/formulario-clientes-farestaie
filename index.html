@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alta / Actualización de Datos — FARES TAIE</title>
+<meta name="description" content="Formulario de actualización de datos de clientes — FARES TAIE, Laboratorio Bioquímico Mar del Plata SA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- Barra utilitaria superior, igual a la del sitio -->
+<div class="utilitybar">
+  <span>industria@farestaie.com.ar</span>
+</div>
+
+<main class="page">
+
+  <!-- Cabecera tipo nav "pill" del sitio -->
+  <header class="brandbar">
+    <div class="brandbar__logo">
+      <span class="dotgrid" aria-hidden="true">
+        <i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i>
+      </span>
+      <span class="brandbar__word">FaresTaie</span>
+    </div>
+    <div class="brandbar__meta">
+      <div class="brandbar__field">
+        <span>Folio</span>
+        <strong id="folioValue">—</strong>
+      </div>
+      <div class="brandbar__field">
+        <span>Fecha</span>
+        <strong id="dateValue">—</strong>
+      </div>
+    </div>
+  </header>
+
+  <section class="sheet">
+
+    <div class="titleblock">
+      <span class="eyebrow-pill">Portal de clientes</span>
+      <h1>Actualización de datos de cliente</h1>
+      <p>Completá los datos fiscales y de contacto para que podamos emitir tu facturación y enviar los resultados correctamente. Tarda unos 3 minutos.</p>
+    </div>
+
+    <!-- Progreso -->
+    <nav class="track" aria-label="Progreso del formulario">
+      <ol>
+        <li data-step="1" class="track__node is-active">
+          <span class="track__index">1</span>
+          <span class="track__label">Datos fiscales</span>
+        </li>
+        <li data-step="2" class="track__node">
+          <span class="track__index">2</span>
+          <span class="track__label">Contactos</span>
+        </li>
+        <li data-step="3" class="track__node">
+          <span class="track__index">3</span>
+          <span class="track__label">Confirmación</span>
+        </li>
+      </ol>
+      <div class="track__bar"><div class="track__bar-fill" id="trackFill"></div></div>
+    </nav>
+
+  <form id="clientForm" novalidate>
+
+    <!-- PASO 1 -->
+    <section class="step is-active" data-step="1" aria-labelledby="step1-title">
+      <h2 id="step1-title"><span class="eyebrow">01 / Datos fiscales</span>Sobre la empresa</h2>
+
+      <div class="field">
+        <label for="solicitanteEmail">Tu correo electrónico <em>*</em></label>
+        <input type="email" id="solicitanteEmail" name="solicitanteEmail" required autocomplete="email" placeholder="nombre@empresa.com">
+        <span class="hint">Vamos a usarlo por si necesitamos contactarte por este formulario.</span>
+      </div>
+
+      <div class="field">
+        <label for="razonSocial">Nombre o razón social <em>*</em></label>
+        <input type="text" id="razonSocial" name="razonSocial" required autocomplete="organization">
+      </div>
+
+      <div class="field">
+        <label for="domicilioFiscal">Domicilio fiscal <em>*</em></label>
+        <input type="text" id="domicilioFiscal" name="domicilioFiscal" required>
+      </div>
+
+      <div class="field">
+        <label for="direccionReal">Dirección real</label>
+        <input type="text" id="direccionReal" name="direccionReal">
+        <span class="hint">Completar solo si difiere del domicilio fiscal.</span>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="cuit">CUIT <em>*</em></label>
+          <input type="text" id="cuit" name="cuit" required inputmode="numeric" placeholder="30-XXXXXXXX-X">
+        </div>
+        <div class="field field--sm">
+          <label for="codigoPostal">Código postal <em>*</em></label>
+          <input type="text" id="codigoPostal" name="codigoPostal" required inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="telefonoAdmin">Teléfono área administrativa <em>*</em></label>
+        <input type="tel" id="telefonoAdmin" name="telefonoAdmin" required autocomplete="tel">
+      </div>
+
+      <div class="field">
+        <label for="correoInstitucional">Correo electrónico institucional <em>*</em></label>
+        <input type="email" id="correoInstitucional" name="correoInstitucional" required>
+      </div>
+
+      <fieldset class="field">
+        <legend>¿Trabajan con orden de compra? <em>*</em></legend>
+        <div class="choice-row">
+          <label class="choice"><input type="radio" name="ordenCompra" value="Sí" required><span>Sí</span></label>
+          <label class="choice"><input type="radio" name="ordenCompra" value="No" required><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="condicionIva">Condición frente al IVA <em>*</em></label>
+        <select id="condicionIva" name="condicionIva" required>
+          <option value="" disabled selected>Elegir</option>
+          <option>Responsable inscripto</option>
+          <option>Monotributista</option>
+          <option>No responsable</option>
+          <option>Exento</option>
+          <option>Consumidor final</option>
+        </select>
+      </div>
+
+      <fieldset class="field">
+        <legend>¿Es agente de retención?</legend>
+        <div class="choice-row">
+          <label class="choice"><input type="radio" name="agenteRetencion" value="Sí"><span>Sí</span></label>
+          <label class="choice"><input type="radio" name="agenteRetencion" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <div class="step-actions">
+        <span></span>
+        <button type="button" class="btn btn--primary" data-next>Continuar</button>
+      </div>
+    </section>
+
+    <!-- PASO 2 -->
+    <section class="step" data-step="2" aria-labelledby="step2-title">
+      <h2 id="step2-title"><span class="eyebrow">02 / Contactos</span>Personal autorizado para recibir información</h2>
+
+      <div class="subgroup">
+        <h3>Contactos para recibir resultados</h3>
+        <p class="subgroup__hint">El primer contacto es obligatorio. Podés sumar hasta dos más.</p>
+
+        <div class="contact-block">
+          <span class="contact-block__index">1</span>
+          <div class="field"><label for="res1Nombre">Nombre y apellido <em>*</em></label><input type="text" id="res1Nombre" name="res1Nombre" required></div>
+          <div class="field"><label for="res1Email">Correo electrónico <em>*</em></label><input type="email" id="res1Email" name="res1Email" required></div>
+          <div class="field"><label for="res1Telefono">Teléfono <em>*</em></label><input type="tel" id="res1Telefono" name="res1Telefono" required></div>
+        </div>
+
+        <div class="contact-block contact-block--optional" data-contact-optional="res2" hidden>
+          <span class="contact-block__index">2</span>
+          <div class="field"><label for="res2Nombre">Nombre y apellido</label><input type="text" id="res2Nombre" name="res2Nombre"></div>
+          <div class="field"><label for="res2Email">Correo electrónico</label><input type="email" id="res2Email" name="res2Email"></div>
+          <div class="field"><label for="res2Telefono">Teléfono</label><input type="tel" id="res2Telefono" name="res2Telefono"></div>
+        </div>
+
+        <div class="contact-block contact-block--optional" data-contact-optional="res3" hidden>
+          <span class="contact-block__index">3</span>
+          <div class="field"><label for="res3Nombre">Nombre y apellido</label><input type="text" id="res3Nombre" name="res3Nombre"></div>
+          <div class="field"><label for="res3Email">Correo electrónico</label><input type="email" id="res3Email" name="res3Email"></div>
+          <div class="field"><label for="res3Telefono">Teléfono</label><input type="tel" id="res3Telefono" name="res3Telefono"></div>
+        </div>
+
+        <button type="button" class="btn btn--ghost btn--add" data-add-contact="res">+ Agregar otro contacto de resultados</button>
+      </div>
+
+      <div class="subgroup">
+        <h3>Contacto para recibir facturación</h3>
+        <p class="subgroup__hint">El primer contacto es obligatorio. Podés sumar hasta dos más.</p>
+
+        <div class="contact-block">
+          <span class="contact-block__index">1</span>
+          <div class="field"><label for="fac1Nombre">Nombre y apellido <em>*</em></label><input type="text" id="fac1Nombre" name="fac1Nombre" required></div>
+          <div class="field"><label for="fac1Telefono">Teléfono <em>*</em></label><input type="tel" id="fac1Telefono" name="fac1Telefono" required></div>
+          <div class="field"><label for="fac1Email">Correo electrónico <em>*</em></label><input type="email" id="fac1Email" name="fac1Email" required></div>
+        </div>
+
+        <div class="contact-block contact-block--optional" data-contact-optional="fac2" hidden>
+          <span class="contact-block__index">2</span>
+          <div class="field"><label for="fac2Nombre">Nombre y apellido</label><input type="text" id="fac2Nombre" name="fac2Nombre"></div>
+          <div class="field"><label for="fac2Telefono">Teléfono</label><input type="tel" id="fac2Telefono" name="fac2Telefono"></div>
+          <div class="field"><label for="fac2Email">Correo electrónico</label><input type="email" id="fac2Email" name="fac2Email"></div>
+        </div>
+
+        <div class="contact-block contact-block--optional" data-contact-optional="fac3" hidden>
+          <span class="contact-block__index">3</span>
+          <div class="field"><label for="fac3Nombre">Nombre y apellido</label><input type="text" id="fac3Nombre" name="fac3Nombre"></div>
+          <div class="field"><label for="fac3Telefono">Teléfono</label><input type="tel" id="fac3Telefono" name="fac3Telefono"></div>
+          <div class="field"><label for="fac3Email">Correo electrónico</label><input type="email" id="fac3Email" name="fac3Email"></div>
+        </div>
+
+        <button type="button" class="btn btn--ghost btn--add" data-add-contact="fac">+ Agregar otro contacto de facturación</button>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn btn--secondary" data-prev>Atrás</button>
+        <button type="button" class="btn btn--primary" data-next>Continuar</button>
+      </div>
+    </section>
+
+    <!-- PASO 3 -->
+    <section class="step" data-step="3" aria-labelledby="step3-title">
+      <h2 id="step3-title"><span class="eyebrow">03 / Confirmación</span>Aceptación y confirmación</h2>
+
+      <div class="tyc-box">
+        <p>Antes de enviar, revisá los Términos y Condiciones Comerciales vigentes de FARES TAIE.</p>
+        <a class="tyc-link" href="https://sites.google.com/view/fares-taie-tyc/inicio" target="_blank" rel="noopener">Leer Términos y Condiciones ↗</a>
+      </div>
+
+      <label class="field field--check">
+        <input type="checkbox" id="aceptaTyc" name="aceptaTyc" required>
+        <span>Declaro haber leído y acepto los Términos y Condiciones Comerciales del laboratorio FARES TAIE vigentes, los que me fueron remitidos junto con la presente cotización por correo electrónico. <em>*</em></span>
+      </label>
+
+      <label class="field field--check">
+        <input type="checkbox" id="confirmaEmail" name="confirmaEmail" required>
+        <span>Confirmo que el correo electrónico informado en este formulario constituye mi domicilio electrónico constituido a todos los efectos legales y contractuales. <em>*</em></span>
+      </label>
+
+      <div class="step-actions">
+        <button type="button" class="btn btn--secondary" data-prev>Atrás</button>
+        <button type="submit" class="btn btn--primary" id="submitBtn">Enviar formulario</button>
+      </div>
+    </section>
+
+  </form>
+
+  <!-- Estado de envío -->
+  <section class="result" id="resultOk" hidden>
+    <span class="result__index">OK</span>
+    <h2>Datos recibidos</h2>
+    <p>Gracias, registramos tu información con el folio <strong id="resultFolio">—</strong>. Nuestro equipo administrativo la va a validar a la brevedad.</p>
+  </section>
+
+  <section class="result result--error" id="resultError" hidden>
+    <span class="result__index">!</span>
+    <h2>No pudimos enviar el formulario</h2>
+    <p>Revisá tu conexión e intentá de nuevo. Si el problema persiste, escribinos a <a href="mailto:facturacion@farestaie.com.ar">facturacion@farestaie.com.ar</a>.</p>
+    <button type="button" class="btn btn--secondary" id="retryBtn">Volver a intentar</button>
+  </section>
+
+  </section>
+
+  <footer class="foot">
+    <span>FaresTaie · Laboratorio Bioquímico Mar del Plata SA</span>
+  </footer>
+
+</main>
+
+<script src="assets/config.js"></script>
+<script src="assets/script.js"></script>
+</body>
+</html>
