@@ -94,7 +94,8 @@
       <div class="field-row">
         <div class="field">
           <label for="cuit">CUIT <em>*</em></label>
-          <input type="text" id="cuit" name="cuit" required inputmode="numeric" placeholder="30-XXXXXXXX-X">
+          <input type="text" id="cuit" name="cuit" required inputmode="numeric" placeholder="30-XXXXXXXX-X" maxlength="13">
+          <span class="error-msg">CUIT inválido — revisá los 11 dígitos.</span>
         </div>
         <div class="field field--sm">
           <label for="codigoPostal">Código postal <em>*</em></label>
