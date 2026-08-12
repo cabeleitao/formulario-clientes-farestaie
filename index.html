@@ -204,7 +204,7 @@
           <div class="field"><label for="fac3Email">Correo electrónico</label><input type="email" id="fac3Email" name="fac3Email"></div>
         </div>
 
-        <button type="button" class="btn btn--ghost btn--add" data-add-contact="fac">+ Agregar otro contacto de facturación</button>
+        <button type="button" class="btn btn--ghost btn--add" data-add-contact="fac">+ Agregar otro contacto de facturación y/o pagos</button>
       </div>
 
       <div class="step-actions">
@@ -216,6 +216,8 @@
     <!-- PASO 3 -->
     <section class="step" data-step="3" aria-labelledby="step3-title">
       <h2 id="step3-title"><span class="eyebrow">03 / Confirmación</span>Aceptación y confirmación</h2>
+
+      <p class="step-warning" id="step3Warning" hidden>Para enviar, aceptá los Términos y Condiciones y confirmá tu correo electrónico.</p>
 
       <div class="tyc-box">
         <p>Antes de enviar, revisá los Términos y Condiciones Comerciales vigentes de FARES TAIE.</p>
@@ -250,8 +252,7 @@
   <section class="result result--error" id="resultError" hidden>
     <span class="result__index">!</span>
     <h2>No pudimos enviar el formulario</h2>
-    <p>Revisá tu conexión e intentá de nuevo. Si el problema persiste, escribinos a <a href="mailto:facturacion@farestaie.com.ar">facturacion@farestaie.com.ar</a>.</p>
-    <button type="button" class="btn btn--secondary" id="retryBtn">Volver a intentar</button>
+    <p>Revisá tu conexión e intentá de nuevo con el botón "Enviar formulario" de arriba. Si el problema persiste, escribinos a <a href="mailto:facturacion@farestaie.com.ar">facturacion@farestaie.com.ar</a>.</p>
   </section>
 
   </section>
