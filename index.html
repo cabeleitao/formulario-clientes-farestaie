@@ -141,6 +141,23 @@
         </div>
       </fieldset>
 
+      <div class="field" id="retentionBlock" hidden>
+        <label>¿De qué impuesto/s?</label>
+        <span class="hint">Marcá todos los que correspondan.</span>
+        <div class="check-grid">
+          <label class="choice choice--check"><input type="checkbox" id="retIva" name="retIva" value="IVA"><span>IVA</span></label>
+          <label class="choice choice--check"><input type="checkbox" id="retGanancias" name="retGanancias" value="Ganancias"><span>Ganancias</span></label>
+          <label class="choice choice--check"><input type="checkbox" id="retSuss" name="retSuss" value="SUSS"><span>SUSS</span></label>
+          <label class="choice choice--check"><input type="checkbox" id="retIibb" name="retIibb" value="Ingresos Brutos"><span>Ingresos Brutos</span></label>
+          <label class="choice choice--check"><input type="checkbox" id="retOtro" name="retOtro" value="Otro"><span>Otro</span></label>
+        </div>
+        <div class="field" id="retOtroDetalleField" hidden>
+          <label for="retOtroDetalle">Especificar otro impuesto</label>
+          <input type="text" id="retOtroDetalle" name="retOtroDetalle">
+        </div>
+        <input type="hidden" id="agenteRetencionImpuestos" name="agenteRetencionImpuestos">
+      </div>
+
       <div class="step-actions">
         <span></span>
         <button type="button" class="btn btn--primary" data-next>Continuar</button>
