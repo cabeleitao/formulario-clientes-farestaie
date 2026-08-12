@@ -7,8 +7,8 @@
   var trackFill = document.getElementById('trackFill');
   var resultOk = document.getElementById('resultOk');
   var resultError = document.getElementById('resultError');
-  var retryBtn = document.getElementById('retryBtn');
   var submitBtn = document.getElementById('submitBtn');
+  var step3Warning = document.getElementById('step3Warning');
   var currentStep = 1;
   var TOTAL_STEPS = steps.length;
 
@@ -33,6 +33,62 @@
     trackFill.style.width = (n / TOTAL_STEPS * 100) + '%';
     currentStep = n;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function markError(field){
+    if(!field) return;
+    field.classList.add('has-error');
+  }
+  function clearError(field){
+    if(!field) return;
+    field.classList.remove('has-error');
+  }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  /* ---------- CUIT: formato automático + validación oficial (AFIP) ---------- */
+  var cuitInput = document.getElementById('cuit');
+  var cuitField = cuitInput ? cuitInput.closest('.field') : null;
+
+  function formatCuit(raw){
+    var digits = raw.replace(/\D/g, '').slice(0, 11);
+    if(digits.length <= 2) return digits;
+    if(digits.length <= 10) return digits.slice(0,2) + '-' + digits.slice(2);
+    return digits.slice(0,2) + '-' + digits.slice(2,10) + '-' + digits.slice(10);
+  }
+
+  function isValidCuit(value){
+    var digits = value.replace(/\D/g, '');
+    if(digits.length !== 11) return false;
+    var mult = [5,4,3,2,7,6,5,4,3,2];
+    var sum = 0;
+    for(var i = 0; i < 10; i++){ sum += parseInt(digits[i], 10) * mult[i]; }
+    var mod = 11 - (sum % 11);
+    var check = mod === 11 ? 0 : (mod === 10 ? 9 : mod);
+    return check === parseInt(digits[10], 10);
+  }
+
+  if(cuitInput){
+    cuitInput.addEventListener('input', function(){
+      var pos = cuitInput.selectionStart;
+      var before = cuitInput.value.length;
+      cuitInput.value = formatCuit(cuitInput.value);
+      var after = cuitInput.value.length;
+      cuitInput.setSelectionRange(pos + (after - before), pos + (after - before));
+
+      var digits = cuitInput.value.replace(/\D/g, '');
+      if(digits.length < 11){
+        clearError(cuitField);
+      } else if(digits.length === 11){
+        if(isValidCuit(cuitInput.value)){ clearError(cuitField); }
+        else { markError(cuitField); }
+      }
+    });
+    // Validación también al salir del campo (por si pega un valor completo).
+    cuitInput.addEventListener('blur', function(){
+      if(!cuitInput.value.trim()) return;
+      if(!isValidCuit(cuitInput.value)){ markError(cuitField); }
+      else { clearError(cuitField); }
+    });
   }
 
   function validateStep(stepEl){
@@ -64,48 +120,6 @@
       }
     });
     return valid;
-  }
-
-  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-
-  /* ---------- CUIT: formato automático + validación oficial (AFIP) ---------- */
-  var cuitInput = document.getElementById('cuit');
-
-  function formatCuit(raw){
-    var digits = raw.replace(/\D/g, '').slice(0, 11);
-    if(digits.length <= 2) return digits;
-    if(digits.length <= 10) return digits.slice(0,2) + '-' + digits.slice(2);
-    return digits.slice(0,2) + '-' + digits.slice(2,10) + '-' + digits.slice(10);
-  }
-
-  function isValidCuit(value){
-    var digits = value.replace(/\D/g, '');
-    if(digits.length !== 11) return false;
-    var mult = [5,4,3,2,7,6,5,4,3,2];
-    var sum = 0;
-    for(var i = 0; i < 10; i++){ sum += parseInt(digits[i], 10) * mult[i]; }
-    var mod = 11 - (sum % 11);
-    var check = mod === 11 ? 0 : (mod === 10 ? 9 : mod);
-    return check === parseInt(digits[10], 10);
-  }
-
-  if(cuitInput){
-    cuitInput.addEventListener('input', function(){
-      var pos = cuitInput.selectionStart;
-      var before = cuitInput.value.length;
-      cuitInput.value = formatCuit(cuitInput.value);
-      var after = cuitInput.value.length;
-      cuitInput.setSelectionRange(pos + (after - before), pos + (after - before));
-    });
-  }
-
-  function markError(field){
-    if(!field) return;
-    field.classList.add('has-error');
-  }
-  function clearError(field){
-    if(!field) return;
-    field.classList.remove('has-error');
   }
 
   document.querySelectorAll('[data-next]').forEach(function(btn){
@@ -145,10 +159,12 @@
   form.addEventListener('input', function(e){
     var field = e.target.closest('.field') || e.target.closest('fieldset.field');
     if(field) clearError(field);
+    if(step3Warning && !step3Warning.hidden){ step3Warning.hidden = true; }
   });
   form.addEventListener('change', function(e){
     var field = e.target.closest('.field') || e.target.closest('fieldset.field');
     if(field) clearError(field);
+    if(step3Warning && !step3Warning.hidden){ step3Warning.hidden = true; }
   });
 
   /* ---------- Envío ---------- */
@@ -176,7 +192,16 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var stepEl = steps[currentStep - 1];
-    if(!validateStep(stepEl)) return;
+
+    if(!validateStep(stepEl)){
+      var firstError = stepEl.querySelector('.has-error');
+      if(currentStep === TOTAL_STEPS && step3Warning){
+        step3Warning.hidden = false;
+      }
+      if(firstError){ firstError.scrollIntoView({ behavior:'smooth', block:'center' }); }
+      return;
+    }
+    if(step3Warning){ step3Warning.hidden = true; }
 
     var url = window.APPS_SCRIPT_URL;
     if(!url || url.indexOf('PEGAR_URL') !== -1){
@@ -199,6 +224,7 @@
       document.querySelector('.track').hidden = true;
       document.getElementById('resultFolio').textContent = folio;
       resultOk.hidden = false;
+      resultOk.scrollIntoView({ behavior:'smooth' });
     })
     .catch(function(){
       hideSending();
@@ -206,11 +232,6 @@
       resultError.hidden = false;
       resultError.scrollIntoView({ behavior:'smooth' });
     });
-  });
-
-  retryBtn.addEventListener('click', function(){
-    resultError.hidden = true;
-    form.dispatchEvent(new Event('submit', { cancelable:true }));
   });
 
 })();
