@@ -57,6 +57,8 @@
         valid = false; markError(field);
       } else if(input.type === 'email' && !isEmail(input.value)){
         valid = false; markError(field);
+      } else if(input.id === 'cuit' && !isValidCuit(input.value)){
+        valid = false; markError(field);
       } else {
         clearError(field);
       }
@@ -65,6 +67,37 @@
   }
 
   function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  /* ---------- CUIT: formato automático + validación oficial (AFIP) ---------- */
+  var cuitInput = document.getElementById('cuit');
+
+  function formatCuit(raw){
+    var digits = raw.replace(/\D/g, '').slice(0, 11);
+    if(digits.length <= 2) return digits;
+    if(digits.length <= 10) return digits.slice(0,2) + '-' + digits.slice(2);
+    return digits.slice(0,2) + '-' + digits.slice(2,10) + '-' + digits.slice(10);
+  }
+
+  function isValidCuit(value){
+    var digits = value.replace(/\D/g, '');
+    if(digits.length !== 11) return false;
+    var mult = [5,4,3,2,7,6,5,4,3,2];
+    var sum = 0;
+    for(var i = 0; i < 10; i++){ sum += parseInt(digits[i], 10) * mult[i]; }
+    var mod = 11 - (sum % 11);
+    var check = mod === 11 ? 0 : (mod === 10 ? 9 : mod);
+    return check === parseInt(digits[10], 10);
+  }
+
+  if(cuitInput){
+    cuitInput.addEventListener('input', function(){
+      var pos = cuitInput.selectionStart;
+      var before = cuitInput.value.length;
+      cuitInput.value = formatCuit(cuitInput.value);
+      var after = cuitInput.value.length;
+      cuitInput.setSelectionRange(pos + (after - before), pos + (after - before));
+    });
+  }
 
   function markError(field){
     if(!field) return;
