@@ -74,7 +74,7 @@ body{
   margin-bottom: 20px;
 }
 .brandbar__logo{ display:flex; align-items:center; }
-.brandbar__logoimg{ height: 30px; width: auto; display:block; }
+.brandbar__logoimg{ height: 30px !important; width: auto !important; max-width: 200px; display:block; }
 .brandbar__meta{ display:flex; gap:22px; }
 .brandbar__field{ display:flex; flex-direction:column; align-items:flex-end; gap:1px; }
 .brandbar__field span{ font-size:10.5px; color: var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; }
